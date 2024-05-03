@@ -2,8 +2,11 @@ import { BaseScreen } from '@components';
 import { DeviceUtils } from '@utils';
 import { fs, ms, vs } from '@utils/ScaleUtils';
 import React, { useRef } from 'react';
-import { Alert, FlatList, Image, StyleSheet, Text, View } from 'react-native';
+import { Alert, FlatList, Image, ListRenderItem, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { ColorType, LightColor } from 'src/app/commons';
+import { TMovie } from './Type';
+import { navigateToMovieDetailScreen, navigateToSearchMovieScreen } from '@navigations/ScreenNavigation';
+import { ImagesAsset } from '@assets';
 
 const HomeScreen = () => {
 
@@ -45,19 +48,32 @@ const HomeScreen = () => {
         },
     ]
 
-    const renderItem = ({ item }) => (
-        <View style={styles.item}>
+    const onClickItem = (item: TMovie) => {
+        navigateToMovieDetailScreen(item);
+    };
+
+    const renderItem: ListRenderItem<TMovie> = ({ item }) => (
+        <TouchableOpacity onPress={() => onClickItem(item)} style={styles.item}>
             <Image
-                source={{ uri: item['#IMG_POSTER'] }}
+                source={{ uri: item["#IMG_POSTER"] }}
                 style={styles.poster}
+                resizeMode='cover'
             />
-            <View style={styles.details}>
-                <Text style={styles.title}>{item['#TITLE']}</Text>
-                <Text style={styles.actors}>Actors: {item['#ACTORS']}</Text>
-                <Text style={styles.year}>Year: {item['#YEAR']}</Text>
+            <View style={{paddingLeft: vs(15), justifyContent: 'center'}}>
+                <Text style={styles.name}>{item["#TITLE"]}</Text>
+                <Text style={styles.txt}>{item["#YEAR"]}</Text>
+                <Text style={styles.txt}>{item["#RANK"]}</Text>
             </View>
-        </View>
+        </TouchableOpacity>
     );
+
+    const renderItemSeparator = ({ }) => (
+        <View style={{ height: vs(15) }} />
+    );
+
+    const onSearch = () => {
+        navigateToSearchMovieScreen();
+    }
 
     return (
         <BaseScreen
@@ -69,18 +85,25 @@ const HomeScreen = () => {
             customHeader={
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: vs(15), alignItems: 'center' }}>
                     <Text style={styles.txtTitle}>Home</Text>
-                    <View style={styles.searchView}>
-
-                    </View>
+                    <TouchableOpacity onPress={onSearch} style={styles.searchView}>
+                        <Image
+                            source={ImagesAsset.search}
+                            resizeMode="contain"
+                            style={styles.icon}
+                        />
+                    </TouchableOpacity>
                 </View>
             }
         >
-            <FlatList
-                data={data}
-                renderItem={renderItem}
-                keyExtractor={(item) => item['#IMDB_ID']}
-                numColumns={2}
-            />
+            <View style={{ paddingHorizontal: vs(15), paddingTop: vs(10) }}>
+                <FlatList
+                    data={data}
+                    renderItem={renderItem}
+                    keyExtractor={(item) => item["#IMDB_ID"]}
+                    horizontal={false}
+                    ItemSeparatorComponent={renderItemSeparator}
+                />
+            </View>
         </BaseScreen>
     );
 };
@@ -95,40 +118,46 @@ const styles = StyleSheet.create({
         width: vs(40),
         height: vs(40),
         borderRadius: vs(20),
-        backgroundColor: colors.colorPrimaryLight
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: colors.colorDBDBDB
     },
     txtTitle: {
-        fontSize: fs(32),
+        fontSize: fs(25),
         lineHeight: vs(34),
-        letterSpacing: -ms(0.28),
         fontWeight: '600',
         color: colors.color3A3A3C
     },
+    icon: {
+        width: vs(23),
+        height: vs(23),
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
     item: {
-        flex: 1,
         flexDirection: 'row',
-        margin: 10,
-        backgroundColor: '#f9c2ff',
-        borderRadius: 10,
     },
     poster: {
-        width: 100,
-        height: 150,
-        borderRadius: 10,
-    },
-    details: {
-        flex: 1,
-        padding: 10,
+        width: '29%',
+        height: DeviceUtils.getDeviceHeight() / 6,
+        borderRadius: vs(10),
+        backgroundColor: colors.colorDBDBDB,
+        borderWidth: vs(0.5),
+        borderColor: colors.colorDBDBDB
     },
     title: {
-        fontSize: 16,
+        fontSize: fs(18),
         fontWeight: 'bold',
     },
-    actors: {
-        fontSize: 14,
+    name: {
+        fontSize: fs(18),
+        fontWeight: 'bold',
+        color: colors.color3A3A3C
     },
-    year: {
-        fontSize: 14,
+    txt: {
+        fontSize: fs(16),
+        color: colors.color9A9A9A,
+        fontWeight: 'bold'
     },
 });
 

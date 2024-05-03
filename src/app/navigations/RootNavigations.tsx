@@ -1,8 +1,8 @@
 import * as React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {SCREENS} from './ScreensRouter';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { SCREENS } from './ScreensRouter';
 import { LightColor } from '../commons';
 import { fs, ms, vs } from '@utils/ScaleUtils';
 import { ImagesAsset } from '@assets';
@@ -42,7 +42,7 @@ const HomeStack = () => {
   return (
     <Stack.Navigator
       initialRouteName={SCREENS.HOME_SCREEN.name}
-      screenOptions={{headerShown: false}}>
+      screenOptions={{ headerShown: false }}>
       <Stack.Screen
         name={SCREENS.HOME_SCREEN.name}
         component={SCREENS.HOME_SCREEN.component}
@@ -55,7 +55,7 @@ const MoreStack = () => {
   return (
     <Stack.Navigator
       initialRouteName={SCREENS.MORE_SCREEN.name}
-      screenOptions={{headerShown: false}}>
+      screenOptions={{ headerShown: false }}>
       <Stack.Screen
         name={SCREENS.MORE_SCREEN.name}
         component={SCREENS.MORE_SCREEN.component}
@@ -71,7 +71,7 @@ const BOTTOM_NAVIGATOR_ADMIN = () => {
   return (
     <Tab.Navigator
       initialRouteName={SCREENS.HOME_SCREEN.name}
-      screenOptions={({route, navigation}) => ({
+      screenOptions={({ route, navigation }) => ({
         headerTintColor: '#fff',
         tabBarStyle: {
           paddingBottom: vs(
@@ -80,7 +80,7 @@ const BOTTOM_NAVIGATOR_ADMIN = () => {
               : 5,
           ),
           height: vs(DeviceUtils.isIphoneWithNotch() ? 70 : 60),
-          transform: [{translateY: isShowBottomTab ? 0 : 100}],
+          transform: [{ translateY: isShowBottomTab ? 0 : 100 }],
         },
         tabBarVisibilityAnimationConfig: {
           show: {
@@ -93,10 +93,10 @@ const BOTTOM_NAVIGATOR_ADMIN = () => {
         headerShown: false,
         gestureEnabled: false,
         tabBarShowLabel: false,
-        tabBarIcon: ({focused, color, size}) => {
+        tabBarIcon: ({ focused, color, size }) => {
           let iconTemp =
             DATA_TAB_ADMIN[
-              DATA_TAB_ADMIN.findIndex(x => x.type == route.name)
+            DATA_TAB_ADMIN.findIndex(x => x.type == route.name)
             ];
           return (
             <View
@@ -144,11 +144,19 @@ export const RootNavigation = () => {
     <NavigationContainer ref={navigationRef}>
       <Stack.Navigator
         initialRouteName={"BottomTabAdmin"}
-        screenOptions={{headerShown: false}}>
+        screenOptions={{ headerShown: false }}>
         <Stack.Screen
           name="BottomTabAdmin"
           component={BOTTOM_NAVIGATOR_ADMIN}
-          options={{gestureEnabled: false}}
+          options={{ gestureEnabled: false }}
+        />
+        <Stack.Screen
+          name={SCREENS.MOVIE_DETAIL_SCREEN.name}
+          component={SCREENS.MOVIE_DETAIL_SCREEN.component}
+        />
+        <Stack.Screen
+          name={SCREENS.SEARCH_MOVIE_SCREEN.name}
+          component={SCREENS.SEARCH_MOVIE_SCREEN.component}
         />
       </Stack.Navigator>
       <LoaddingModal />
