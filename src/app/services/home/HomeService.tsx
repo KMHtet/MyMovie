@@ -16,4 +16,14 @@ export default class HomeService {
     }
     return HomeService.instance;
   }
+
+  async movieList() {
+    let headers = {
+      'Content-Type': 'application/json',
+    };
+
+    let url = `https://search.imdbot.workers.dev/?q=Niram`;
+
+    return await servicesHelper.initRequest('get', headers, url, null);
+  }
 }

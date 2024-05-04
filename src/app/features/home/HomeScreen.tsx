@@ -1,14 +1,17 @@
 import { BaseScreen } from '@components';
 import { DeviceUtils } from '@utils';
 import { fs, ms, vs } from '@utils/ScaleUtils';
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Alert, FlatList, Image, ListRenderItem, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { ColorType, LightColor } from 'src/app/commons';
 import { TMovie } from './Type';
 import { navigateToMovieDetailScreen, navigateToSearchMovieScreen } from '@navigations/ScreenNavigation';
 import { ImagesAsset } from '@assets';
+import HomeVM from './HomeVM';
 
 const HomeScreen = () => {
+
+    const homeVM = HomeVM();
 
     const data = [
         {
@@ -48,6 +51,13 @@ const HomeScreen = () => {
         },
     ]
 
+    useEffect(() => {   
+        const params = {
+            input: 'Hello'
+        }
+        homeVM.getMovieList(params);
+    }, []);
+
     const onClickItem = (item: TMovie) => {
         navigateToMovieDetailScreen(item);
     };
@@ -61,8 +71,14 @@ const HomeScreen = () => {
             />
             <View style={{paddingLeft: vs(15), justifyContent: 'center'}}>
                 <Text style={styles.name}>{item["#TITLE"]}</Text>
-                <Text style={styles.txt}>{item["#YEAR"]}</Text>
-                <Text style={styles.txt}>{item["#RANK"]}</Text>
+                <View style={{flexDirection: 'row', paddingVertical: vs(5)}}>
+                    <Image source={ImagesAsset.date} style={[styles.icon, {marginRight: vs(5)}]} />
+                    <Text style={styles.txt}>{item["#YEAR"]}</Text>
+                </View>
+                <View style={{flexDirection: 'row'}}>
+                    <Image source={ImagesAsset.quality} style={[styles.icon, {marginRight: vs(5)}]} />
+                    <Text style={styles.txt}>{item["#RANK"]}</Text>
+                </View>
             </View>
         </TouchableOpacity>
     );
@@ -152,7 +168,8 @@ const styles = StyleSheet.create({
     name: {
         fontSize: fs(18),
         fontWeight: 'bold',
-        color: colors.color3A3A3C
+        color: colors.color3A3A3C,
+        width: '100%'
     },
     txt: {
         fontSize: fs(16),

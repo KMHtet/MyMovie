@@ -37,6 +37,12 @@
       "@defines/*": [
         "./src/app/commons/defines/*"
       ],
+      "@hooks": [
+        "../app/commons/hooks"
+      ],
+      "@hooks/*": [
+        "./src/app/commons/hooks/*"
+      ],
       "@utils": [
         "./src/utils"
       ],

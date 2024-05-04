@@ -13,6 +13,7 @@ module.exports = {
           '@utils': './src/utils',
           '@store': './src/store',
           '@defines': './src/app/commons/defines',
+          '@hooks': './src/app/commons/hooks',
           '@functions': './src/app/features',
           '@navigations': './src/app/navigations',
           '@screens': './src/app/features/FeaturesScreen.tsx',

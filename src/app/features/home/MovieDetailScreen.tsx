@@ -85,10 +85,16 @@ const MovieDetailScreen = () => {
                         style={styles.poster}
                         resizeMode='contain'
                     />
-                    <View style={{ paddingLeft: vs(10) }}>
-                        <Text style={styles.title}>{data["#TITLE"]}</Text>
-                        <Text style={styles.title}>{data["#YEAR"]}</Text>
-                        <Text style={styles.title}>{data["#RANK"]}</Text>
+                    <View style={{ paddingLeft: vs(10), justifyContent: 'center' }}>
+                        <Text style={[styles.title, {width: '90%'}]}>{data["#TITLE"]}</Text>
+                        <View style={{ flexDirection: 'row', paddingVertical: vs(5) }}>
+                            <Image source={ImagesAsset.date} style={[styles.icon, { marginRight: vs(5) }]} />
+                            <Text style={styles.txt}>{data["#YEAR"]}</Text>
+                        </View>
+                        <View style={{ flexDirection: 'row', paddingVertical: vs(5) }}>
+                            <Image source={ImagesAsset.quality} style={[styles.icon, { marginRight: vs(5) }]} />
+                            <Text style={styles.txt}>{data["#RANK"]}</Text>
+                        </View>
                     </View>
                 </View>
                 <Button
@@ -111,8 +117,8 @@ const MovieDetailScreen = () => {
                     horizontal={true}
                 />
                 <View style={styles.line} />
-                <Text>Summaries</Text>
-                <Text>Actors : {data["#ACTORS"]}</Text>
+                <Text style={styles.txt1}>Summaries</Text>
+                <Text style={styles.txt2}>Actors : {data["#ACTORS"]}</Text>
                 <View style={styles.line} />
             </View>
         </BaseScreen>
@@ -166,15 +172,30 @@ const styles = StyleSheet.create({
         width: '40%',
         height: DeviceUtils.getDeviceHeight() / 3,
         borderRadius: vs(10),
-        backgroundColor: 'grey'
+        backgroundColor: colors.colorDBDBDB
     },
     title: {
         fontSize: fs(18),
         fontWeight: 'bold',
         color: colors.color3A3A3C
     },
+    txt: {
+        fontSize: fs(16),
+        fontWeight: 'bold',
+        color: colors.color9A9A9A
+    },
     actionTxt: {
 
+    },
+    txt1: {
+        fontSize: fs(16),
+        color: colors.black,
+        fontWeight: '500'
+    },
+    txt2: {
+        fontSize: fs(14),
+        color: colors.black,
+        fontWeight: '400'
     }
 });
 

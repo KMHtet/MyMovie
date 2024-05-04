@@ -1,35 +1,16 @@
-import {persistCombineReducers, Storage} from 'redux-persist';
-import Config from 'react-native-config';
-
+import HomeReducer from './HomeReducer';
+import { combineReducers } from 'redux';
 
 // ================= MAPPING ANY REDUCER =================
 const reducers = {
-};
-
-// ============ CUSTOM STORE WITH MMKV ===================
-export const reduxStorage: Storage = {
-  getItem: function (key: string, ...args: any[]) {
-    throw new Error('Function not implemented.');
-  },
-  setItem: function (key: string, value: any, ...args: any[]) {
-    throw new Error('Function not implemented.');
-  },
-  removeItem: function (key: string, ...args: any[]) {
-    throw new Error('Function not implemented.');
-  }
-};
-
-// ===============  CONFIG STORE =========================
-const persistConfig = {
-  key: 'root',
-  storage: reduxStorage,
-  // There is an issue in the source code of redux-persist (default setTimeout does not cleaning)
-  timeout: 10000,
-  whitelist: ['movie'],
+  home: HomeReducer
 };
 
 // ================== EXPORT APP REDUCER =================
-export const appReducer = persistCombineReducers(persistConfig, reducers);
+export const appReducer = combineReducers({
+  data: reducers,
+  // Add more reducers as needed
+});
 
 export type RootState = ReturnType<typeof appReducer>;
 
