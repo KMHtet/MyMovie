@@ -8,6 +8,7 @@ import { Alert, FlatList, Image, ListRenderItem, StyleSheet, Text, TouchableOpac
 import { ColorType, LightColor } from 'src/app/commons';
 import { TMovie, TMovieDetail } from './Type';
 import HomeVM from './HomeVM';
+import { navigateToWebViewScreen } from '@navigations/ScreenNavigation';
 
 const MovieDetailScreen = () => {
 
@@ -75,6 +76,10 @@ const MovieDetailScreen = () => {
         </TouchableOpacity>
     );
 
+    const onPlay = () => {
+        navigateToWebViewScreen();
+    }
+
     return (
         <BaseScreen
             bodyStyle={styles.container}
@@ -121,9 +126,9 @@ const MovieDetailScreen = () => {
                         <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
                             {movieData?.genre.map((genre) => (
                                 <View
-                                    style={{backgroundColor: colors.colorPrimaryLight, borderRadius: vs(10), paddingVertical: vs(3), paddingHorizontal: vs(5), marginRight: vs(5), marginBottom: vs(5)}}
+                                    style={{ backgroundColor: colors.colorPrimaryLight, borderRadius: vs(10), paddingVertical: vs(3), paddingHorizontal: vs(5), marginRight: vs(5), marginBottom: vs(5) }}
                                 >
-                                    <Text style={{fontSize: fs(12), color: colors.white }}>{genre}</Text>
+                                    <Text style={{ fontSize: fs(12), color: colors.white }}>{genre}</Text>
                                 </View>
                             ))}
                         </View>
@@ -140,6 +145,7 @@ const MovieDetailScreen = () => {
                     rightIcon={ImagesAsset.play}
                     titleColor={colors.colorPrimary}
                     titleStyle={styles.btnTxt}
+                    onPress={onPlay}
                 />
                 <View style={styles.line} />
                 <FlatList
@@ -149,8 +155,17 @@ const MovieDetailScreen = () => {
                     horizontal={true}
                 />
                 <View style={styles.line} />
+                <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+                    {movieData?.keywords.split(',').map((genre) => (
+                        <View
+                            style={{ backgroundColor: colors.colorPrimaryLight, borderRadius: vs(10), paddingVertical: vs(3), paddingHorizontal: vs(5), marginRight: vs(5), marginBottom: vs(5) }}
+                        >
+                            <Text style={{ fontSize: fs(12), color: colors.white }}>{genre}</Text>
+                        </View>
+                    ))}
+                </View>
                 <Text style={styles.txt2}>Actors : {data["#ACTORS"]}</Text>
-                <Text style={[styles.txt1, {paddingTop: vs(5)}]}>Summaries</Text>
+                <Text style={[styles.txt1, { paddingTop: vs(5) }]}>Summaries</Text>
                 <Text style={styles.txt2}>{movieData?.description}</Text>
                 <View style={styles.line} />
             </View>

@@ -3,6 +3,7 @@ import HomeScreen from "../features/home/HomeScreen";
 import MoreScreen from "../features/more/MoreScreen";
 import SearchMovieScreen from "@functions/home/SearchMovieScreen";
 import DownloadScreen from "@functions/download/DownloadScreen";
+import WebViewScreen from "@functions/home/WebViewScreen";
 
 export const SCREENS = {
   HOME_SCREEN: {
@@ -24,5 +25,9 @@ export const SCREENS = {
   SEARCH_MOVIE_SCREEN: {
     name: 'SearchMovieScreen',
     component: SearchMovieScreen,
+  },
+  WEB_VIEW_SCREEN: {
+    name: 'WebViewScreen',
+    component: WebViewScreen,
   }
 };

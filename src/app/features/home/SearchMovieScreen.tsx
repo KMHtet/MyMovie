@@ -192,7 +192,7 @@ const SearchMovieScreen = () => {
                                 </TouchableOpacity>
                             ))}
                         </View>
-                        <View style={styles.line} />
+                        {/* <View style={styles.line} />
                         <Text style={{color: colors.color3A3A3C, fontWeight: 'bold', fontSize: fs(16)}}>Searched</Text>
                         <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
                             {options.map((option) => (
@@ -204,7 +204,7 @@ const SearchMovieScreen = () => {
                                     <Text style={{fontSize: fs(14), color: option?.id === selectedOption?.id ? colors.white : colors.black }}>{option?.item_desc}</Text>
                                 </TouchableOpacity>
                             ))}
-                        </View>
+                        </View> */}
                     </>
                 ) : (
                     <FlatList

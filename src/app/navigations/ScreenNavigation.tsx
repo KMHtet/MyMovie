@@ -12,3 +12,7 @@ export function navigateToMovieDetailScreen(param: any) {
 export function navigateToSearchMovieScreen() {
     navigate(SCREENS.SEARCH_MOVIE_SCREEN.name);
 }
+
+export function navigateToWebViewScreen() {
+    navigate(SCREENS.WEB_VIEW_SCREEN.name);
+}

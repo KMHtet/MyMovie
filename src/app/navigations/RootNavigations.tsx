@@ -155,7 +155,8 @@ const BOTTOM_NAVIGATOR_ADMIN = () => {
         },
       })}>
       <Tab.Screen name={SCREENS.HOME_SCREEN.name} component={HomeStack} />
-      <Tab.Screen
+      <Tab.Screen name={SCREENS.DOWNLOAD_SCREEN.name} component={DownloadStack} />
+      {/* <Tab.Screen
         name={SCREENS.DOWNLOAD_SCREEN.name}
         component={DownloadStack}
         options={{
@@ -179,7 +180,7 @@ const BOTTOM_NAVIGATOR_ADMIN = () => {
             </View>
           ),
         }}
-      />
+      /> */}
       <Tab.Screen name={SCREENS.MORE_SCREEN.name} component={MoreStack} />
     </Tab.Navigator>
   );
@@ -203,6 +204,10 @@ export const RootNavigation = () => {
         <Stack.Screen
           name={SCREENS.SEARCH_MOVIE_SCREEN.name}
           component={SCREENS.SEARCH_MOVIE_SCREEN.component}
+        />
+        <Stack.Screen
+          name={SCREENS.WEB_VIEW_SCREEN.name}
+          component={SCREENS.WEB_VIEW_SCREEN.component}
         />
       </Stack.Navigator>
       <LoaddingModal />

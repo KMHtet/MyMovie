@@ -11,7 +11,7 @@ export interface TMovie {
     "photo_width"?: number;
     "photo_height"?: number;
 }
-interface TMovieDetail {
+export interface TMovieDetail {
     '@context': string;
     '@type': string;
     url: string;
