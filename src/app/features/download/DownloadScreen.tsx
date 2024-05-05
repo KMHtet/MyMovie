@@ -6,7 +6,7 @@ import React, { useRef } from 'react';
 import { Alert, Image, StyleSheet, Text, View } from 'react-native';
 import { ColorType, LightColor } from 'src/app/commons';
 
-const MoreScreen = () => {
+const DownloadScreen = () => {
 
     return (
         <BaseScreen
@@ -44,5 +44,5 @@ const styles = StyleSheet.create({
     },
 });
 
-export default MoreScreen;
+export default DownloadScreen;
 

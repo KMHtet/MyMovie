@@ -11,4 +11,11 @@ export const ImagesAsset = {
     quality: require('./quality.png'),
     share: require('./share.png'),
     star: require('./star.png'),
+    download_: require('./download_.png'),
+    more: require('./more.png'),
+    download_inactive: require('./download_inactive.png'),
+    download_white: require('./download_white.png'),
+    more_inactive: require('./more_inactive.png'),
+    coming_soon: require('./coming_soon.png'),
+    add: require('./add.png'),
 }

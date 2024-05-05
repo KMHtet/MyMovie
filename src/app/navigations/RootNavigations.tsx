@@ -8,7 +8,7 @@ import { fs, ms, vs } from '@utils/ScaleUtils';
 import { ImagesAsset } from '@assets';
 import { DeviceUtils, navigationRef } from '@utils';
 import { Image, Text, View } from 'react-native';
-import { LoaddingModal } from '..';
+import { BasePopupModal, LoaddingModal } from '..';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -26,15 +26,26 @@ const DATA_TAB_ADMIN = [
     ic_inactive: ImagesAsset.home_inactive,
   },
   {
-    id: '05',
+    id: '02',
+    colorUnTab: LightColor.colorA8A8A8,
+    colorTab: LightColor.colorFF8D07,
+    width: vs(17),
+    height: vs(17),
+    type: 'DownloadScreen',
+    label: 'Download',
+    ic: ImagesAsset.download_,
+    ic_inactive: ImagesAsset.download_inactive,
+  },
+  {
+    id: '03',
     colorUnTab: LightColor.colorA8A8A8,
     colorTab: LightColor.colorFF8D07,
     width: vs(17),
     height: vs(17),
     type: 'MoreScreen',
     label: 'More',
-    ic: ImagesAsset.home,
-    ic_inactive: ImagesAsset.home_inactive,
+    ic: ImagesAsset.more,
+    ic_inactive: ImagesAsset.more_inactive,
   },
 ];
 
@@ -59,6 +70,19 @@ const MoreStack = () => {
       <Stack.Screen
         name={SCREENS.MORE_SCREEN.name}
         component={SCREENS.MORE_SCREEN.component}
+      />
+    </Stack.Navigator>
+  );
+};
+
+const DownloadStack = () => {
+  return (
+    <Stack.Navigator
+      initialRouteName={SCREENS.DOWNLOAD_SCREEN.name}
+      screenOptions={{ headerShown: false }}>
+      <Stack.Screen
+        name={SCREENS.DOWNLOAD_SCREEN.name}
+        component={SCREENS.DOWNLOAD_SCREEN.component}
       />
     </Stack.Navigator>
   );
@@ -119,7 +143,7 @@ const BOTTOM_NAVIGATOR_ADMIN = () => {
                 style={{
                   fontSize: fs(13),
                   fontWeight: '500',
-                  color: focused ? '#FF8D07' : '#A8A8A8',
+                  color: focused ? '#1a7edb' : '#A8A8A8',
                   marginTop: vs(5),
                   textAlign: 'center',
                 }}
@@ -132,9 +156,31 @@ const BOTTOM_NAVIGATOR_ADMIN = () => {
       })}>
       <Tab.Screen name={SCREENS.HOME_SCREEN.name} component={HomeStack} />
       <Tab.Screen
-        name={SCREENS.MORE_SCREEN.name}
-        component={MoreStack}
+        name={SCREENS.DOWNLOAD_SCREEN.name}
+        component={DownloadStack}
+        options={{
+          tabBarLabel: '',
+          tabBarIcon: ({focused, color}) => (
+            <View
+              style={{
+                position: 'absolute',
+                bottom: 20,
+                height: vs(62),
+                width: vs(62),
+                borderRadius: vs(62),
+                backgroundColor: focused ? '#1a7edb' :  '#A8A8A8',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <Image
+                source={focused ? ImagesAsset.download_white : ImagesAsset.download_white}
+                style={{width: vs(25), height: vs(25)}}
+              />
+            </View>
+          ),
+        }}
       />
+      <Tab.Screen name={SCREENS.MORE_SCREEN.name} component={MoreStack} />
     </Tab.Navigator>
   );
 };
@@ -160,6 +206,7 @@ export const RootNavigation = () => {
         />
       </Stack.Navigator>
       <LoaddingModal />
+      <BasePopupModal />
     </NavigationContainer>
   );
 };

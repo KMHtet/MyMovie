@@ -7,6 +7,7 @@ import { Alert, FlatList, Image, Keyboard, ListRenderItem, StyleSheet, Text, Tou
 import { ColorType, LightColor } from 'src/app/commons';
 import { TMovie } from './Type';
 import { navigateToMovieDetailScreen } from '@navigations/ScreenNavigation';
+import HomeVM from './HomeVM';
 
 const SearchMovieScreen = () => {
 
@@ -51,7 +52,6 @@ const SearchMovieScreen = () => {
     const [values, setValues] = useState('');
     const [selectedOption, setSelectedOption] = useState(null);
     const [current, setCurrent] = useState<number>(0);
-    const [movieList, setMovieList] = useState(null);
 
     const options = [
         {
@@ -84,23 +84,28 @@ const SearchMovieScreen = () => {
         }
     ]
 
+    const homeVM = HomeVM();
+
     const onChangeText = (values: any) => {
         setValues(values);
-        setCurrent(current + 1);
+        // setCurrent(current + 1);
     };
 
-    useEffect(() => {
-        if (current !== 0) {
-            const delayDebounceFn = setTimeout(() => {
-                onSearch && onSearch(values);
-            }, 3000);
-            return () => clearTimeout(delayDebounceFn);
-        }
-    }, [values]);
+    // useEffect(() => {
+    //     if (current !== 0) {
+    //         const delayDebounceFn = setTimeout(() => {
+    //             onSearch && onSearch(values);
+    //         }, 3000);
+    //         return () => clearTimeout(delayDebounceFn);
+    //     }
+    // }, [values]);
 
     const onSearch = (value: any) => {
         Keyboard.dismiss();
-        setMovieList(data);
+        const params = {
+            input: value
+        }
+        homeVM.getMovieList(params);
     }
 
     const pressEnter = () => {
@@ -173,7 +178,7 @@ const SearchMovieScreen = () => {
             }
         >
             <View style={{ paddingHorizontal: vs(15) }}>
-                {movieList == null ? (
+                {homeVM.movieList.length === 0 ? (
                     <>
                         <Text style={{color: colors.color3A3A3C, fontWeight: 'bold', fontSize: fs(16)}}>Features</Text>
                         <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
@@ -203,7 +208,7 @@ const SearchMovieScreen = () => {
                     </>
                 ) : (
                     <FlatList
-                        data={movieList}
+                        data={homeVM.movieList}
                         style={{paddingTop: vs(15)}}
                         renderItem={renderItem}
                         keyExtractor={(item) => item["#IMDB_ID"]}

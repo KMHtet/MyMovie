@@ -1,20 +1,39 @@
 import { ImagesAsset } from '@assets';
-import { BaseScreen, Button } from '@components';
+import { BasePopupModal, BaseScreen, Button } from '@components';
 import { useRoute } from '@react-navigation/native';
 import { DeviceUtils, goBack } from '@utils';
 import { fs, ms, vs } from '@utils/ScaleUtils';
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Alert, FlatList, Image, ListRenderItem, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { ColorType, LightColor } from 'src/app/commons';
-import { TMovie } from './Type';
+import { TMovie, TMovieDetail } from './Type';
+import HomeVM from './HomeVM';
 
 const MovieDetailScreen = () => {
 
     const data = useRoute()?.params as TMovie;
 
+    const [movieData, setMovieData] = useState<TMovieDetail>();
+
+    const homeVM = HomeVM();
+
+    useEffect(() => {
+        homeVM.getMovieDetail(
+            data['#IMDB_ID'],
+            (data: any) => {
+                getMovieDetailSuccess(data);
+            },
+        );
+    }, []);
+
+    const getMovieDetailSuccess = (data: any) => {
+        console.warn('Kyaw getMovieDetailSuccess', data?.short);
+        setMovieData(data?.short);
+    }
+
     const actionData = [
         {
-            icon: ImagesAsset.home,
+            icon: ImagesAsset.add,
             label: 'Add',
             code: 'ADD'
         },
@@ -36,7 +55,11 @@ const MovieDetailScreen = () => {
     ]
 
     const onClickItem = (item: any) => {
-
+        BasePopupModal.show({
+            title: 'Information',
+            children: 'Coming Soon',
+            subButtonTitle: 'Ok'
+        })
     }
 
     const renderItem: ListRenderItem<any> = ({ item }) => (
@@ -86,14 +109,23 @@ const MovieDetailScreen = () => {
                         resizeMode='contain'
                     />
                     <View style={{ paddingLeft: vs(10), justifyContent: 'center' }}>
-                        <Text style={[styles.title, {width: '90%'}]}>{data["#TITLE"]}</Text>
+                        <Text style={[styles.title, { width: DeviceUtils.getDeviceWidth() * 0.5 }]}>{data["#TITLE"]}</Text>
                         <View style={{ flexDirection: 'row', paddingVertical: vs(5) }}>
                             <Image source={ImagesAsset.date} style={[styles.icon, { marginRight: vs(5) }]} />
-                            <Text style={styles.txt}>{data["#YEAR"]}</Text>
+                            <Text style={styles.txt}>{movieData?.datePublished}</Text>
                         </View>
                         <View style={{ flexDirection: 'row', paddingVertical: vs(5) }}>
                             <Image source={ImagesAsset.quality} style={[styles.icon, { marginRight: vs(5) }]} />
-                            <Text style={styles.txt}>{data["#RANK"]}</Text>
+                            <Text style={styles.txt}>({movieData?.review?.reviewRating.ratingValue}/{movieData?.review?.reviewRating.bestRating}) IMDB</Text>
+                        </View>
+                        <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+                            {movieData?.genre.map((genre) => (
+                                <View
+                                    style={{backgroundColor: colors.colorPrimaryLight, borderRadius: vs(10), paddingVertical: vs(3), paddingHorizontal: vs(5), marginRight: vs(5), marginBottom: vs(5)}}
+                                >
+                                    <Text style={{fontSize: fs(12), color: colors.white }}>{genre}</Text>
+                                </View>
+                            ))}
                         </View>
                     </View>
                 </View>
@@ -117,8 +149,9 @@ const MovieDetailScreen = () => {
                     horizontal={true}
                 />
                 <View style={styles.line} />
-                <Text style={styles.txt1}>Summaries</Text>
                 <Text style={styles.txt2}>Actors : {data["#ACTORS"]}</Text>
+                <Text style={[styles.txt1, {paddingTop: vs(5)}]}>Summaries</Text>
+                <Text style={styles.txt2}>{movieData?.description}</Text>
                 <View style={styles.line} />
             </View>
         </BaseScreen>
